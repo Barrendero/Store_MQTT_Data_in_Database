@@ -1,6 +1,6 @@
 #------------------------------------------
-#--- Author: Pradeep Singh
-#--- Date: 20th January 2017
+#--- Author: Barrendero
+#--- Date: 14th February 2022
 #--- Version: 1.0
 #--- Python Ver: 2.7
 #--- Details At: https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/
@@ -10,9 +10,10 @@
 import json
 import sqlite3
 
+from datetime import datetime
+
 # SQLite DB Name
 DB_Name =  "IoT.db"
-
 #===============================================================
 # Database Manager Class
 
@@ -47,8 +48,8 @@ def DHT22_Temp_Data_Handler(jsonData):
 	dbObj = DatabaseManager()
 	dbObj.add_del_update_db_record("insert into DHT22_Temperature_Data (SensorID, Date_n_Time, Temperature) values (?,?,?)",[SensorID, Data_and_Time, Temperature])
 	del dbObj
-	print "Inserted Temperature Data into Database."
-	print ""
+	print ("Inserted Temperature Data into Database.")
+	print ("")
 
 # Function to save Humidity to DB Table
 def DHT22_Humidity_Data_Handler(jsonData):
@@ -62,17 +63,31 @@ def DHT22_Humidity_Data_Handler(jsonData):
 	dbObj = DatabaseManager()
 	dbObj.add_del_update_db_record("insert into DHT22_Humidity_Data (SensorID, Date_n_Time, Humidity) values (?,?,?)",[SensorID, Data_and_Time, Humidity])
 	del dbObj
-	print "Inserted Humidity Data into Database."
-	print ""
+	print ("Inserted Humidity Data into Database.")
+	print ("")
+
+# Function to save Udself to DB Table
+def DHT22_Oxygen_Data_Handler(jsonData):
+	#Parse Data 
+	json_Dict = json.loads(jsonData)
+	Oxygen = json_Dict['Oxygen']
+	
+	#Push into DB Table
+	dbObj = DatabaseManager()
+	dbObj.add_del_update_db_record("insert into DHT22_Oxygen_Data (Oxygen) values (?)",[Oxygen])
+	del dbObj
+	print ("Inserted Oxygen Data into Database.")
+	print ("")
 
 
 #===============================================================
-# Master Function to Select DB Funtion based on MQTT Topic
-
+# Master Function to Select DB Funtion based on MQTT Topic 
 def sensor_Data_Handler(Topic, jsonData):
 	if Topic == "Home/BedRoom/DHT22/Temperature":
 		DHT22_Temp_Data_Handler(jsonData)
-	elif Topic == "Home/BedRoom/DHT22/Humidity":
+	if Topic == "Home/BedRoom/DHT22/Humidity":
 		DHT22_Humidity_Data_Handler(jsonData)	
+	if Topic == "Home/BedRoom/ud/Oxygen":
+		DHT22_Oxygen_Data_Handler(jsonData)
 
 #===============================================================
