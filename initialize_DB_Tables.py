@@ -1,6 +1,6 @@
 #------------------------------------------
-#--- Author: Pradeep Singh
-#--- Date: 20th January 2017
+#--- Author: Barrendero
+#--- Date: 14th February 2022
 #--- Version: 1.0
 #--- Python Ver: 2.7
 #--- Details At: https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/
@@ -28,6 +28,12 @@ create table DHT22_Humidity_Data (
   SensorID text,
   Date_n_Time text,
   Humidity text
+);
+
+drop table if exists DHT22_Oxygen_Data ;
+create table DHT22_Oxygen_Data (
+  id integer primary key autoincrement,
+  Oxygen text
 );
 """
 
