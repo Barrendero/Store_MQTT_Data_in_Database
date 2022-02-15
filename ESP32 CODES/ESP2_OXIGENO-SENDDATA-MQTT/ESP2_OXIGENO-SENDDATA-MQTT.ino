@@ -32,8 +32,8 @@ int ud = 0;
 
 // Comunicacion definiciones
 
-const char* ssid = "INFINITUMC47D";
-const char* password = "CRYPTELMEX1";
+const char* ssid = "YourSSID";
+const char* password = "YourPasword";
 
 char* server = "inserta tu broker";
 int port = 1883;
@@ -97,9 +97,9 @@ void GetOx(void *parameters) {
        if(OxCopia > 2){
        Serial.println("El oxígeno es: " + String(OxCopia));
         //sensor_string_complete = false;+
-       sprintf(datosOx, "Oxigeno: %d ", OxCopia);    // Prepare data to put in on Char variable
+       sprintf(datosOx, "Oxygen: %d ", OxCopia);    // Prepare data to put in on Char variable
        sprintf(datosUd, "Mstate: %d ", ud);          // Same idea of the row above
-       mqttClient.publish("Test/Oxigeno", datosOx);  // Publish data on MQTT broker using datosOx Char variable
+       mqttClient.publish("Home/BedRoom/ud/Oxygen", datosOx);  // Publish data on MQTT broker using datosOx Char variable
        mqttClient.publish("Test/Oxigeno", datosUd);  // Same idea of the row above
        Serial.println("Datos enviados al broker");   // Tell us data has benn succesfully sended
        vTaskDelay(10000 / portTICK_PERIOD_MS);
